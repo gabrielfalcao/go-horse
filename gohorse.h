@@ -22,23 +22,35 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
-#include "gohorse.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <string.h>
+#include <unistd.h>
+#include <stdarg.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <signal.h>
+#include <stddef.h>
+#include <pthread.h>
+#include <sys/select.h>
+#include <sys/types.h>
+#include <sys/time.h>
+#include <sys/stat.h>
+#include <sys/msg.h>
+#include <sys/mman.h>
+#include <netdb.h>
+#include <netinet/in.h>
+#include <time.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <microhttpd.h>
+#include <time.h>
 
-void quit_app (int sig) {
-    printf("\033[D\033[D\033[1;31mserver was shutdown\033[0m\n");
-    exit(sig);
-}
+typedef struct MHD_Daemon GOHorseDaemon;
+#define is =
+#define true 1
+#define false 0
 
-int main(int argc, char ** argv) {
-    GOHorseDaemon *daemon;
-    signal(SIGABRT, quit_app);
-    signal(SIGTERM, quit_app);
-    signal(SIGINT, quit_app);
-
-    daemon = gh_run_server(8888);
-    gh_stop_server(daemon);
-
-    return 0;
-}
-
-
+GOHorseDaemon *gh_run_server(int port);
+void gh_stop_server (GOHorseDaemon *daemon);

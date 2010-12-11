@@ -1,4 +1,4 @@
-OPTS := `pkg-config --libs --cflags glib-2.0 libmicrohttpd` mustache.{c,h}
+OPTS := `pkg-config --libs --cflags glib-2.0 libmicrohttpd` mustache.{c,h} gohorse.{c,h}
 
 test:
 	@gcc test.c -o run-tests $(OPTS)
