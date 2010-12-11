@@ -47,6 +47,7 @@ int gh_response (void *cls,
     MHD_get_connection_values (connection, MHD_GET_ARGUMENT_KIND, &get_parameters, params);
 
     char *rendered = mustache_render("<html><body><h1>Hello, {{ me }}</h1></body></html>", params);
+    g_hash_table_unref(params);
 
     response = MHD_create_response_from_data (strlen (rendered), (void*) rendered, MHD_NO, MHD_NO);
     ret = MHD_queue_response (connection, MHD_HTTP_OK, response); MHD_destroy_response (response);

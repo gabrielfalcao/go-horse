@@ -31,11 +31,15 @@ void quit_app (int sig) {
 
 int main(int argc, char ** argv) {
     GOHorseDaemon *daemon;
+    int port = 8888;
     signal(SIGABRT, quit_app);
     signal(SIGTERM, quit_app);
     signal(SIGINT, quit_app);
 
-    daemon = gh_run_server(8888);
+    if (argc == 2) {
+        port = atoi(argv[1]);
+    }
+    daemon = gh_run_server(port);
     gh_stop_server(daemon);
 
     return 0;

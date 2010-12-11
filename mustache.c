@@ -35,6 +35,7 @@ void _iterate_over_hash (gpointer _key, gpointer _value, gpointer user_data) {
     GRegex *regex = g_regex_new (pattern, G_REGEX_DOTALL, G_REGEX_MATCH_NEWLINE_ANY, &err);
     char *rendered = g_regex_replace(regex, original, strlen(original), 0, value, G_REGEX_MATCH_NEWLINE_ANY, &err);
 
+    g_free(original);
     *ref = rendered;
     g_free(pattern);
     g_regex_unref(regex);
