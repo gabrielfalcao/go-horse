@@ -47,7 +47,38 @@
 #include <microhttpd.h>
 #include <time.h>
 #include <glib.h>
-#define gh_debug(x) printf("\n%s:%d - %s\n", __FILE__, __LINE__, x)
+#include "mustache.h"
+
+/* DEBUG */
+/*********************************************************************/
+#define WHERESTR "\033[1;31mDEBUG - \033[1;36m%s:%d - \033[1;33m"
+#define WHEREARG __FILE__, __LINE__
+#define _gh_debug(...) fprintf(stderr, __VA_ARGS__)
+#define gh_debug(_fmt, ...)  _gh_debug(WHERESTR _fmt "\033[0m", WHEREARG, __VA_ARGS__)
+/*********************************************************************/
+
+/* DSL */
+/*********************************************************************/
+#define _GH_GET3(url, ll, data, body) GHResponse* _gh_answer_##ll(GHRequest *request) { body }; _gh_register_response(url, _gh_answer_##ll, data);
+#define _GH_GET2(url, ll, data, body) _GH_GET3(url, ll, data, body)
+#define _GH_GET1(url, ll, data, body) _GH_GET2(url, ll, data, body)
+#define _GH_GET(url, ll, data, body)  _GH_GET1(url, ll, data, body)
+#define GET(url, body) _GH_GET("^" url "$", __LINE__, NULL, body)
+
+#define GO_HORSE() GOHorseDaemon *__quick_daemon__; \
+    __quick_daemon__ = gh_run_server(8888); \
+    gh_stop_server(__quick_daemon__);
+
+/*********************************************************************/
+
+/* HELPERS */
+/*********************************************************************/
+#define render(string) return a_new_response(string);
+#define render_template(string, context) return mustache_render(string, context);
+#define is ==
+#define true 1
+#define false 0
+/*********************************************************************/
 
 typedef struct MHD_Daemon GOHorseDaemon;
 typedef struct MHD_Response GHResponse;
@@ -67,12 +98,8 @@ typedef struct _GHRequest
 } GHRequest;
 typedef GHResponse* (*GHResponseCallback) (GHRequest* request);
 
-
-#define is =
-#define true 1
-#define false 0
-
 GOHorseDaemon *gh_run_server(int port);
 void gh_stop_server (GOHorseDaemon *daemon);
 void _gh_register_response(const gchar* regex, GHResponseCallback callback, gpointer data);
 GHResponse* a_new_response(gchar *string);
+void gh_exit_program (int sig);

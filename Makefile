@@ -1,4 +1,4 @@
-OPTS := `pkg-config --libs --cflags glib-2.0 libmicrohttpd` mustache.{c,h} gohorse.{c,h}
+OPTS := `pkg-config --libs --cflags glib-2.0 libmicrohttpd` mustache.{c,h} gohorse.{c,h} -fnested-functions
 
 compile:
 	@gcc main.c -o server $(OPTS)

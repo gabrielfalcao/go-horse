@@ -24,30 +24,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #include "gohorse.h"
 
-void quit_app (int sig) {
-    printf("\033[D\033[D\033[1;31mserver was shutdown\033[0m\n");
-    exit(sig);
-}
+int main() {
+    GET("/big",
+        render("<html><body><h1>Hello World</h1></body></html>");
+    )
+    GET("/",
+        render("<html><body><h2>Hello World</h2></body></html>");
+    )
 
-GHResponse* index_resp(GHRequest *request){
-    return a_new_response("Hello!");
-}
-
-int main(int argc, char ** argv) {
-    GOHorseDaemon *daemon;
-    int port = 8888;
-    _gh_register_response("/$", index_resp, NULL);
-
-    signal(SIGABRT, quit_app);
-    signal(SIGTERM, quit_app);
-    signal(SIGINT, quit_app);
-
-    if (argc == 2) {
-        port = atoi(argv[1]);
-    }
-    daemon = gh_run_server(port);
-    gh_stop_server(daemon);
-
+    GO_HORSE();
     return 0;
 }
 

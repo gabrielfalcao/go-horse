@@ -23,8 +23,12 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 #include "gohorse.h"
-#include "mustache.h"
 GHashTable *possible_responses = NULL;
+
+void gh_exit_program (int sig) {
+    printf("\033[D\033[D\033[1;31mserver was shutdown\033[0m\n");
+    exit(sig);
+}
 
 int _connection_values_to_hash_table (gpointer cls,
                                      enum MHD_ValueKind kind,
@@ -123,6 +127,11 @@ GOHorseDaemon *gh_run_server(int port) {
         exit(1);
     }
     printf("GO Horse is running on localhost:%d\n", port);
+
+    signal(SIGABRT, gh_exit_program);
+    signal(SIGTERM, gh_exit_program);
+    signal(SIGINT, gh_exit_program);
+
     while (true) {getchar();}
 }
 
