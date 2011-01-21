@@ -59,9 +59,7 @@
 
 /* DSL */
 /*********************************************************************/
-#define _GH_GET3(url, ll, data, body) GHResponse* _gh_answer_##ll(GHRequest *request) { body }; _gh_register_response(url, _gh_answer_##ll, data);
-#define _GH_GET2(url, ll, data, body) _GH_GET3(url, ll, data, body)
-#define _GH_GET1(url, ll, data, body) _GH_GET2(url, ll, data, body)
+#define _GH_GET1(url, ll, data, body) GHResponse* _gh_answer_##ll(GHRequest *request) { body }; _gh_register_response(url, _gh_answer_##ll, data);
 #define _GH_GET(url, ll, data, body)  _GH_GET1(url, ll, data, body)
 #define GET(url, body) _GH_GET("^" url "$", __LINE__, NULL, body)
 
