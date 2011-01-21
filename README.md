@@ -8,6 +8,7 @@ High-scallable, funny and useless http server written entirely in C
 
 1. Install [home brew](http://github.com/mxcl/homebrew)
 2. Install dependencies through:
+
     sudo brew install libmicrohttpd glib
 
 ## running tests
