@@ -46,11 +46,33 @@
 #include <arpa/inet.h>
 #include <microhttpd.h>
 #include <time.h>
+#include <glib.h>
+#define gh_debug(x) printf("\n%s:%d - %s\n", __FILE__, __LINE__, x)
 
 typedef struct MHD_Daemon GOHorseDaemon;
+typedef struct MHD_Response GHResponse;
+typedef struct MHD_Connection GHConnection;
+typedef struct _GHRequest
+{
+    GHConnection *connection;
+    const gchar *url;
+    const gchar *method;
+    const gchar *http_version;
+    const gchar *upload_data;
+    size_t *upload_data_size;
+    GHashTable *parameters;
+    GHashTable *cookies;
+    GHashTable *post_data;
+    int queue_code;
+} GHRequest;
+typedef GHResponse* (*GHResponseCallback) (GHRequest* request);
+
+
 #define is =
 #define true 1
 #define false 0
 
 GOHorseDaemon *gh_run_server(int port);
 void gh_stop_server (GOHorseDaemon *daemon);
+void _gh_register_response(const gchar* regex, GHResponseCallback callback, gpointer data);
+GHResponse* a_new_response(gchar *string);

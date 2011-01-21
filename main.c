@@ -29,9 +29,15 @@ void quit_app (int sig) {
     exit(sig);
 }
 
+GHResponse* index_resp(GHRequest *request){
+    return a_new_response("Hello!");
+}
+
 int main(int argc, char ** argv) {
     GOHorseDaemon *daemon;
     int port = 8888;
+    _gh_register_response("/$", index_resp, NULL);
+
     signal(SIGABRT, quit_app);
     signal(SIGTERM, quit_app);
     signal(SIGINT, quit_app);

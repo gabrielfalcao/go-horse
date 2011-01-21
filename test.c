@@ -25,7 +25,6 @@
 #include "tdd.h"
 #include "mustache.h"
 
-
 i_think_it(should_render_simple_variable_for_hello_world)
 
     GHashTable *context = g_hash_table_new(g_str_hash, g_str_equal);
