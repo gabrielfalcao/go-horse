@@ -71,8 +71,6 @@
 
 /* HELPERS */
 /*********************************************************************/
-#define render(string) return a_new_response(string);
-#define render_template(string, context) return mustache_render(string, context);
 #define is ==
 #define true 1
 #define false 0
@@ -90,6 +88,7 @@ typedef struct _GHRequest
     const gchar *upload_data;
     size_t *upload_data_size;
     GHashTable *parameters;
+    GRegex *url_regex;
     GHashTable *cookies;
     GHashTable *post_data;
     int queue_code;
@@ -99,5 +98,5 @@ typedef GHResponse* (*GHResponseCallback) (GHRequest* request);
 GOHorseDaemon *gh_run_server(int port);
 void gh_stop_server (GOHorseDaemon *daemon);
 void _gh_register_response(const gchar* regex, GHResponseCallback callback, gpointer data);
-GHResponse* a_new_response(gchar *string);
+GHResponse* render(const gchar *string, ...);
 void gh_exit_program (int sig);

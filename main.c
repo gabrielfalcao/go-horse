@@ -25,11 +25,58 @@
 #include "gohorse.h"
 
 int main() {
-    GET("/big",
-        render("<html><body><h1>Hello World</h1></body></html>");
-    )
+
+
     GET("/",
-        render("<html><body><h2>Hello World</h2></body></html>");
+        render(
+            "<html>"
+            "  <head>"
+            "    <title>Welcome to GO-Horse</title>"
+            "  </head>"
+            "  <body>"
+            "    <h1>Welcome to GO-Horse</h1>"
+            "    <h3>you can go to one of these URLs:</h3>"
+            "    <ul>"
+            "      <li><a href=\"/001122334455\">regex that match numbers</a></li>"
+            "      <li><a href=\"/aAbBcCdD\">regex that match letters</a></li>"
+            "    </ul>"
+            "  </body>"
+            "</html>"
+        );
+    )
+
+    GET("/[a-zA-Z]+",
+        gchar *path = g_strstrip(g_strdelimit(g_strdup(request->url), "/", ' '));
+        render(
+            "<html>"
+            "  <head>"
+            "    <title>Welcome to GO-Horse</title>"
+            "  </head>"
+            "  <body>"
+            "    <h1>Welcome to GO-Horse</h1>"
+            "    <h2>this controller match letters</h2>"
+            "    <h3>and you choose <em>\"%s\"</em></h3>"
+            "  </body>"
+            "</html>",
+            path
+        );
+    )
+
+    GET("/\\d+",
+        gchar *path = g_strstrip(g_strdelimit(g_strdup(request->url), "/", ' '));
+        render(
+            "<html>"
+            "  <head>"
+            "    <title>Welcome to GO-Horse</title>"
+            "  </head>"
+            "  <body>"
+            "    <h1>Welcome to GO-Horse</h1>"
+            "    <h2>this controller match numbers</h2>"
+            "    <h3>and you choose <em>\"%s\"</em></h3>"
+            "  </body>"
+            "</html>",
+            path
+        );
     )
 
     GO_HORSE();

@@ -21,11 +21,8 @@ example:
     #import "gohorse.h"
 
     int main() {
-        GET("/",
-            render("Hello World!");
-        )
-        GET("/foo",
-            render("<html><body><h1>Foo Bar</h1></body></html>");
+        GET("/.*",
+            render("<html><body><h1>Hello, you requested the url \"%s\"</h1></body></html>", request->url);
         )
         GO_HORSE();
         return 0;

@@ -39,27 +39,28 @@ int _connection_values_to_hash_table (gpointer cls,
     return MHD_YES;
 }
 
-void _gh_match_response (gpointer key, gpointer value, gpointer user_data)
+gboolean _gh_match_response (gpointer key, gpointer value, gpointer user_data)
 {
     GHRequest *request = user_data;
-    GError *error = NULL;
     gchar *regex_string = key;
     gboolean matches = g_regex_match_simple(regex_string, request->url, G_REGEX_EXTENDED, G_REGEX_MATCH_ANCHORED);
     GHResponse *response = NULL;
     GHResponseCallback callback = value;
     if (matches == TRUE) {
         response = callback(request);
-        //response = MHD_create_response_from_data (strlen(rendered), (void*)rendered, MHD_YES, MHD_YES);
+
         request->queue_code = MHD_queue_response(request->connection, MHD_HTTP_OK, response);
         MHD_destroy_response(response);
 
         time_t curtime;
         struct tm *loctime;
-        curtime = time (NULL);
-        loctime = localtime (&curtime);
+        curtime = time(NULL);
+        loctime = localtime(&curtime);
 
         printf("\033[1;37m%s \033[1;33m%s\033[0m - \033[1;32m200 OK\033[0m - \033[1;30m%s\033[0m", request->method, request->url, asctime(loctime));
+        return TRUE;
     }
+    return FALSE;
 }
 
 int gh_response (void *cls,
@@ -88,8 +89,7 @@ int gh_response (void *cls,
     MHD_get_connection_values(connection, MHD_POSTDATA_KIND, &_connection_values_to_hash_table, request->post_data);
     MHD_get_connection_values(connection, MHD_COOKIE_KIND, &_connection_values_to_hash_table, request->cookies);
 
-    if (possible_responses !=NULL) {
-        g_hash_table_foreach(possible_responses, _gh_match_response, (gpointer)request);
+    if ((possible_responses !=NULL) && (g_hash_table_find(possible_responses, _gh_match_response, (gpointer)request) != NULL)) {
         g_hash_table_unref(request->parameters);
         g_hash_table_unref(request->post_data);
         g_hash_table_unref(request->cookies);
@@ -139,6 +139,11 @@ void gh_stop_server (GOHorseDaemon *daemon) {
     MHD_stop_daemon(daemon);
 }
 
-GHResponse* a_new_response(gchar *string) {
-    return MHD_create_response_from_data(strlen(string), (void*)string, MHD_NO, MHD_NO);
+GHResponse* render(const gchar *string, ...){
+    va_list elements;
+    gchar *rendered = NULL;
+    va_start(elements, string);
+    gint length = g_vasprintf(&rendered, string, elements);
+    va_end(elements);
+    return MHD_create_response_from_data(length, (void*)rendered, MHD_YES, MHD_YES);
 }
