@@ -47,7 +47,7 @@
 #include <microhttpd.h>
 #include <time.h>
 #include <glib.h>
-#include "mustache.h"
+#include <gohorse/mustache.h>
 
 /* DEBUG */
 /*********************************************************************/

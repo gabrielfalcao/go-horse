@@ -22,7 +22,8 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
-#include "gohorse.h"
+#include <gohorse/gohorse.h>
+
 GHashTable *possible_responses = NULL;
 
 void gh_exit_program (int sig) {

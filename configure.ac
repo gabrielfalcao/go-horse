@@ -31,5 +31,9 @@ AC_SUBST([LIBMICROHTTPD_LIBS])
 
 # Checks for library functions.
 
-AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([
+        Makefile
+        include/Makefile
+        include/gohorse/Makefile
+])
 AC_OUTPUT

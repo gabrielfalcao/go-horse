@@ -23,7 +23,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 #include "tdd.h"
-#include "mustache.h"
+#include <gohorse/mustache.h>
 
 i_think_it(should_render_simple_variable_for_hello_world)
 

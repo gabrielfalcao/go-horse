@@ -23,7 +23,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 
-#include "mustache.h"
+#include <gohorse/mustache.h>
 
 void _iterate_over_hash (gpointer _key, gpointer _value, gpointer user_data) {
     GError *err = NULL;
