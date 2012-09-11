@@ -12,7 +12,6 @@ config.h.in~
 config.log
 config.status
 configure
-configure.ac
 Makefile.in
 .deps/
 Makefile
