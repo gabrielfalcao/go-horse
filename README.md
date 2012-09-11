@@ -32,11 +32,13 @@ example:
 
 build with:
 
-    make compile
+    ./autogen.sh
+    ./configure
+    make
 
 run with
 
-    ./server
+    ./go-horse
 
 ### step 4
 
@@ -53,7 +55,7 @@ ENJOY THE RIDE :)
 
 ## running tests
 
-    make test
+    ./tests
 
 ## writting tests
 
@@ -64,13 +66,3 @@ ENJOY THE RIDE :)
     just_for_sure
 
 yeah that is C with macros :)
-
-## compiling
-
-    make compile
-
-## running
-
-    ./server
-
-it runs on port 8888
