@@ -2,9 +2,11 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([FULL-PACKAGE-NAME], [VERSION], [BUG-REPORT-ADDRESS])
+AC_INIT([go-horse], [0.1], [http://github.com/gabrielfalcao/go-horse])
 AC_CONFIG_SRCDIR([gohorse.c])
 AC_CONFIG_HEADERS([config.h])
+AM_INIT_AUTOMAKE(foreign)
+AM_SILENT_RULES([yes])
 
 # Checks for programs.
 AC_PROG_CC
