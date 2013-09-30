@@ -66,3 +66,7 @@ ENJOY THE RIDE :)
     just_for_sure
 
 yeah that is C with macros :)
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/gabrielfalcao/go-horse/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
